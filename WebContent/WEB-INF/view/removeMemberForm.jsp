@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="u" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,28 +13,15 @@
 </head>
 <body>
 <div class="container">
-<%--
-<c:if test="${not empty authUser }">
-Hi, ${authUser.name }
-<a href="logout.do">[logout]</a>
-<a href="changePwd.do">[change password]</a>
-</c:if>
-<c:if test="${empty authUser }">
-<a href="join.do">[create account]</a>
-<a href="login.do">[sign in]</a>
-</c:if>
- --%>
- <u:isLogin>       <%-- 사용자 정의 태그  --%>
-Hi, ${authUser.name }
-<a href="logout.do">[logout]</a>
-<a href="changePwd.do">[change password]</a>
-<a href="removeMember.do">[delete account]</a>
-<a href="article/write.do">[post article]</a>
-</u:isLogin>
-<u:notLogin>
-<a href="join.do">[create account]</a>
-<a href="login.do">[sign in]</a>
-</u:notLogin>
+<h1>delete account</h1>
+<form action="removeMember.do" method="post">
+password: <br />
+ <input type="password" name="password" id="" />
+ <c:if test="${errors.emptyPw }">enter password</c:if>
+ <c:if test="${errors.wrongPw }">check your password</c:if>
+ <br />
+ <input type="submit" value="go" />
+</form>
 </div>
 </body>
 </html>

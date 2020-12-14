@@ -9,6 +9,32 @@ import jdbc.JdbcUtil;
 import member.model.Member;
 
 public class MemberDao {
+	
+	public void delete(Connection con, String id) throws SQLException {
+		//delete sql
+		String sql = "DELETE FROM member WHERE memberid=?";
+		
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public void update(Connection con, Member member) throws SQLException {
+		String sql = "UPDATE member SET name=?, password=? WHERE memberid=?";
+		
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getPassword());
+			pstmt.setString(3, member.getId());
+			
+			pstmt.executeUpdate();
+		}
+	}
+	
+	
+	
 	public Member selectById(Connection con, String id) throws SQLException {
 		Member member = null;
 		String sql = "SELECT memberid, name, password, regdate FROM member WHERE memberid=?";

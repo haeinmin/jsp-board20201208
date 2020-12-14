@@ -46,7 +46,7 @@ public class LoginHandler implements CommandHandler {
 		
 		try {
 			User user = loginService.login(id, password);
-			req.getSession().setAttribute("authUser", user);
+			req.getSession().setAttribute("authUser", user);      //서블릿에서는 세션 바로사용불가. req에서 받아와야함. 로그아웃하려면 authUser 삭제하거나,세션 자체를 없애야. 
 			res.sendRedirect(req.getContextPath()+"/index.jsp");
 			return null;
 		} catch (LoginFailException e) {
