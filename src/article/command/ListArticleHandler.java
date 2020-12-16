@@ -19,7 +19,7 @@ public class ListArticleHandler implements CommandHandler {
 		}
 		
 		ArticlePage articlePage = listService.getArticlePage(pageNo);
-		req.setAttribute("articePage", articlePage);
+		req.setAttribute("articlePage", articlePage);
 
 		return "listArticle";
 	}

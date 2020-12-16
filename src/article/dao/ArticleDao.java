@@ -16,6 +16,61 @@ import jdbc.JdbcUtil;
 
 public class ArticleDao {
 	
+	public void delete(Connection con, int no) throws SQLException {
+		String sql = "DELETE FROM article WHERE article_no=?";
+		
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public int update(Connection conn, int no, String title) throws SQLException {
+		String sql = "UPDATE article "
+				+ "SET title=?, moddate=SYSDATE "
+				+ "WHERE article_no=?";
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, title);
+			pstmt.setInt(2, no);
+			
+			int cnt = pstmt.executeUpdate();
+			return cnt;
+		}
+	}
+	
+	public Article selectById(Connection conn, int no) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * "
+				+ "FROM article "
+				+ "WHERE article_no=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			
+			Article article = null;
+			
+			if (rs.next()) {
+				article = convertArticle(rs);
+			}
+			return article;
+		} finally {
+			JdbcUtil.close(rs, pstmt);
+		}
+		
+	}
+	
+	public void increaseReadCount(Connection con, int no) throws SQLException {
+		try (PreparedStatement pstmt = con.prepareStatement("update article set read_cnt = read_cnt+1 where article_no=?")) {
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+		}
+	}
+	
 	public List<Article> select(Connection con, int pageNum, int size) throws SQLException {
 		
 		String sql = "SELECT rn, article_no, writer_id, writer_name, title, regdate, moddate, read_cnt FROM "

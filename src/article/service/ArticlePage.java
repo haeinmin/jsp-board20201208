@@ -18,13 +18,13 @@ public class ArticlePage {
 		this.content = content;
 		
 		if (total != 0) {
-			this.totalPages = total / size;
-			if (total % size > 0) {
+			this.totalPages = total / 5;
+			if (total % 5 > 0) {
 				totalPages++;
 			}
 			
-			this.startPage = (currentPage-1) / size * size + 1 ;
-			this.endPage = Math.min(startPage+size-1, totalPages);
+			this.startPage = (currentPage-1) / 5 * 5 + 1 ;
+			this.endPage = Math.min(startPage+5-1, totalPages);
 			
 		}
 	}
